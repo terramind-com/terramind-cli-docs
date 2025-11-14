@@ -3,11 +3,12 @@
   "theme": "mint",
   "name": "Terramind",
   "colors": {
-    "primary": "#6366F1",
-    "light": "#818CF8",
-    "dark": "#4F46E5"
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#2563EB"
   },
   "favicon": "/favicon.svg",
+  "madeWith": false,
   "navigation": {
     "tabs": [
       {
@@ -15,55 +16,15 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": [
-              "index",
-              "quickstart",
-              "installation"
-            ]
+            "pages": ["index", "quickstart", "installation"]
           },
           {
             "group": "CLI Usage",
-            "pages": [
-              "cli/overview",
-              "cli/commands",
-              "cli/configuration"
-            ]
+            "pages": ["cli/overview", "cli/commands", "cli/configuration"]
           },
           {
             "group": "AI SDK Provider",
-            "pages": [
-              "provider/overview",
-              "provider/usage",
-              "provider/models"
-            ]
-          },
-          {
-            "group": "ACP Protocol",
-            "pages": [
-              "acp/overview",
-              "acp/integration",
-              "acp/architecture"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoints",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
+            "pages": ["provider/overview", "provider/usage", "provider/models"]
           }
         ]
       }
@@ -101,20 +62,11 @@
     }
   },
   "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/terramind",
+      "x": "https://x.com/terramind_com",
       "github": "https://github.com/terramind-com"
     }
   }

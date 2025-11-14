@@ -3,25 +3,49 @@ title: 'Installation'
 description: 'Complete installation guide for Terramind across all platforms'
 ---
 
-## Package Managers
+## Quick Install (Recommended)
 
-### npm
+The easiest way to install Terramind on macOS or Linux:
 
 ```bash
+curl -fsSL https://terramind.com/install | bash
+```
+
+This script will automatically:
+- Detect your operating system and architecture
+- Download the correct binary
+- Install it to the appropriate location
+- Make it available in your PATH
+
+After installation, restart your terminal and verify:
+
+```bash
+terramind --version
+```
+
+## Package Managers
+
+Alternatively, install via your preferred package manager:
+
+<CodeGroup>
+
+```bash npm
 npm install -g terramind
 ```
 
-### pnpm
-
-```bash
+```bash pnpm
 pnpm add -g terramind
 ```
 
-### Bun
+```bash yarn
+yarn global add terramind
+```
 
-```bash
+```bash bun
 bun add -g terramind
 ```
+
+</CodeGroup>
 
 ## Platform-Specific Installation
 
@@ -34,32 +58,18 @@ brew tap terramind-com/tap
 brew install terramind-com/tap/terramind
 ```
 
-#### Manual Download
+#### Install Script
 
-Download the latest macOS binary from [GitHub Releases](https://github.com/terramind-com/cli/releases):
-
-<CodeGroup>
-
-```bash Apple Silicon (M1/M2/M3)
-curl -LO https://registry.npmjs.org/terramind-darwin-arm64/-/terramind-darwin-arm64-VERSION.tgz
-tar -xzf terramind-darwin-arm64-VERSION.tgz
-sudo mv package/bin/terramind /usr/local/bin/
+```bash
+curl -fsSL https://terramind.com/install | bash
 ```
-
-```bash Intel
-curl -LO https://registry.npmjs.org/terramind-darwin-x64/-/terramind-darwin-x64-VERSION.tgz
-tar -xzf terramind-darwin-x64-VERSION.tgz
-sudo mv package/bin/terramind /usr/local/bin/
-```
-
-</CodeGroup>
 
 ### Linux
 
-#### Using npm (Recommended)
+#### Install Script (Recommended)
 
 ```bash
-npm install -g terramind
+curl -fsSL https://terramind.com/install | bash
 ```
 
 #### Manual Download
@@ -95,14 +105,10 @@ scoop bucket add extras
 scoop install extras/terramind
 ```
 
-#### Manual Download
-
-Download the Windows binary from [GitHub Releases](https://github.com/terramind-com/cli/releases):
+#### npm
 
 ```powershell
-# Download terramind-windows-x64-VERSION.tgz
-# Extract the archive
-# Add the bin directory to your PATH
+npm install -g terramind
 ```
 
 ## Verify Installation
@@ -117,6 +123,12 @@ You should see the version number displayed.
 
 ## Updating Terramind
 
+### Using Install Script
+
+```bash
+curl -fsSL https://terramind.com/install | bash
+```
+
 ### Using Package Managers
 
 <CodeGroup>
@@ -127,6 +139,10 @@ npm update -g terramind
 
 ```bash pnpm
 pnpm update -g terramind
+```
+
+```bash yarn
+yarn global upgrade terramind
 ```
 
 ```bash bun
@@ -157,9 +173,9 @@ This will check for updates and upgrade to the latest version.
 
 ## System Requirements
 
-- **Node.js**: 18.x or higher (for npm installation)
 - **Operating System**: macOS, Linux, or Windows
 - **Architecture**: ARM64 or x64
+- **Node.js**: 18.x or higher (only for npm installation)
 
 ## Troubleshooting
 
@@ -170,13 +186,14 @@ This will check for updates and upgrade to the latest version.
     1. Make sure the installation completed successfully
     2. Try closing and reopening your terminal
     3. Check that the binary is in your PATH
-    4. For npm installations, verify with: `npm list -g terramind`
+    4. Run the install script again: `curl -fsSL https://terramind.com/install | bash`
   </Accordion>
 
   <Accordion title="Permission denied">
     If you encounter permission errors:
     
-    - On macOS/Linux, try using `sudo` for global installations
+    - The install script handles permissions automatically
+    - For npm installations, try using `sudo` for global installations
     - Or install without `-g` flag in a local project
     - Consider using a Node version manager (nvm, fnm) to avoid permission issues
   </Accordion>
@@ -184,9 +201,9 @@ This will check for updates and upgrade to the latest version.
   <Accordion title="Version mismatch">
     If the version command shows an old version:
     
-    1. Clear npm cache: `npm cache clean --force`
+    1. Clear package cache: `npm cache clean --force`
     2. Uninstall: `npm uninstall -g terramind`
-    3. Reinstall: `npm install -g terramind`
+    3. Reinstall using the install script: `curl -fsSL https://terramind.com/install | bash`
   </Accordion>
 </AccordionGroup>
 
@@ -200,4 +217,3 @@ This will check for updates and upgrade to the latest version.
     Learn about all available commands
   </Card>
 </CardGroup>
-
