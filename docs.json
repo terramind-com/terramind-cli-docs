@@ -44,10 +44,7 @@
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
+  "logo": "/logo/logo.png",
   "navbar": {
     "links": [
       {
@@ -68,6 +65,7 @@
     "socials": {
       "x": "https://x.com/terramind_com",
       "github": "https://github.com/terramind-com"
-    }
+    },
+    "madeWith": false
   }
 }
