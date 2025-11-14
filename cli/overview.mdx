@@ -1,0 +1,156 @@
+---
+title: 'CLI Overview'
+description: 'Learn about the Terramind command-line interface'
+---
+
+## Introduction
+
+The Terramind CLI is a powerful command-line interface for interacting with AI models directly from your terminal. It provides an intuitive way to get AI assistance for coding tasks, generate code, debug issues, and more.
+
+## Basic Usage
+
+### Interactive Mode
+
+Start an interactive session where you can have a conversation with the AI:
+
+```bash
+terramind
+```
+
+In interactive mode, you can:
+- Ask questions and get immediate responses
+- Have multi-turn conversations with context
+- Execute commands and see results
+- Switch between different AI models
+
+### Single Command Mode
+
+Execute a single command and exit:
+
+```bash
+terramind run "your prompt here"
+```
+
+This is useful for:
+- Quick one-off tasks
+- Scripting and automation
+- CI/CD pipelines
+- Integration with other tools
+
+## Command Structure
+
+All Terramind commands follow this structure:
+
+```bash
+terramind [command] [options] [arguments]
+```
+
+### Global Options
+
+These options work with any command:
+
+- `--model <model>` - Specify which AI model to use
+- `--help` - Show help information
+- `--version` - Display version information
+- `--debug` - Enable debug mode for troubleshooting
+
+## Common Workflows
+
+### Code Generation
+
+```bash
+terramind run "Create a React component for a user profile card"
+```
+
+### Code Explanation
+
+```bash
+terramind run "Explain this code: $(cat myfile.ts)"
+```
+
+### Debugging
+
+```bash
+terramind run "Debug this error: TypeError: Cannot read property 'map' of undefined"
+```
+
+### Refactoring
+
+```bash
+terramind run "Refactor this function to use async/await instead of promises"
+```
+
+## Working with Projects
+
+Terramind understands your project context:
+
+```bash
+# Navigate to your project directory
+cd /path/to/your/project
+
+# Start Terramind
+terramind
+
+# Now Terramind can access and modify files in your project
+```
+
+The CLI will automatically:
+- Read your project structure
+- Respect `.gitignore` files
+- Access file contents when needed
+- Make changes to files with your permission
+
+## Model Selection
+
+Choose the right model for your task:
+
+```bash
+# Use Claude Sonnet 4.5 (default, best for most tasks)
+terramind run "your prompt" --model claude-sonnet-4-5
+
+# Use GPT-5 for alternative perspective
+terramind run "your prompt" --model gpt-5
+
+# Use Claude Haiku for faster responses
+terramind run "your prompt" --model claude-haiku-4-5
+```
+
+<Tip>
+Different models have different strengths. Claude Sonnet excels at code generation, while GPT-5 is great for reasoning tasks.
+</Tip>
+
+## Session Management
+
+Terramind maintains conversation context across your session:
+
+- Each interactive session remembers the conversation history
+- Context is preserved until you exit
+- You can reference previous messages and responses
+- File changes are tracked within the session
+
+## Output Control
+
+Control how Terramind displays output:
+
+```bash
+# Verbose output with detailed explanations
+terramind run "your prompt" --verbose
+
+# Minimal output (just the result)
+terramind run "your prompt" --quiet
+
+# JSON output for scripting
+terramind run "your prompt" --format json
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="All Commands" icon="list" href="/cli/commands">
+    Complete reference of all CLI commands
+  </Card>
+  <Card title="Configuration" icon="gear" href="/cli/configuration">
+    Customize Terramind settings
+  </Card>
+</CardGroup>
+

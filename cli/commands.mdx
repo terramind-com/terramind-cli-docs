@@ -1,0 +1,355 @@
+---
+title: 'CLI Commands'
+description: 'Complete reference for all Terramind CLI commands'
+---
+
+## Core Commands
+
+### terramind
+
+Start an interactive AI coding session.
+
+```bash
+terramind [options]
+```
+
+**Options:**
+- `--model <model>` - Specify AI model to use
+- `--cwd <directory>` - Set working directory
+
+**Example:**
+```bash
+terramind --model claude-sonnet-4-5
+```
+
+---
+
+### terramind run
+
+Execute a single AI command.
+
+```bash
+terramind run <prompt> [options]
+```
+
+**Arguments:**
+- `<prompt>` - The prompt or question for the AI
+
+**Options:**
+- `--model <model>` - Specify AI model
+- `--format <format>` - Output format (text, json)
+
+**Examples:**
+```bash
+terramind run "Write a Python function to calculate fibonacci numbers"
+terramind run "Explain how async/await works" --model gpt-5
+```
+
+---
+
+### terramind auth
+
+Configure authentication credentials.
+
+```bash
+terramind auth [options]
+```
+
+**Options:**
+- `--token <token>` - Firebase authentication token
+- `--api-key <key>` - Terramind API key
+
+**Example:**
+```bash
+terramind auth --api-key your_api_key_here
+```
+
+Get your API key from [terramind.com](https://terramind.com).
+
+---
+
+### terramind models
+
+List all available AI models.
+
+```bash
+terramind models [options]
+```
+
+**Options:**
+- `--json` - Output in JSON format
+- `--filter <category>` - Filter by model category
+
+**Example:**
+```bash
+terramind models
+terramind models --filter claude
+```
+
+**Output:**
+```
+Available Models:
+  claude-sonnet-4-5      Claude Sonnet 4.5 (Latest)
+  claude-sonnet-4        Claude Sonnet 4
+  claude-haiku-4-5       Claude Haiku 4.5 (Fast)
+  gpt-5                  GPT-5
+  gpt-5-codex            GPT-5 Codex (Code-specialized)
+  ...
+```
+
+---
+
+## Agent Client Protocol
+
+### terramind acp
+
+Start an ACP (Agent Client Protocol) server for editor integration.
+
+```bash
+terramind acp [options]
+```
+
+**Options:**
+- `--cwd <directory>` - Set working directory
+- `--port <port>` - Specify port (default: stdio)
+
+**Example:**
+```bash
+terramind acp --cwd /path/to/project
+```
+
+See the [ACP Integration guide](/acp/integration) for editor setup.
+
+---
+
+## Development Commands
+
+### terramind serve
+
+Start the Terramind server for programmatic access.
+
+```bash
+terramind serve [options]
+```
+
+**Options:**
+- `--port <port>` - Port number (default: 3000)
+- `--host <host>` - Host address (default: localhost)
+
+**Example:**
+```bash
+terramind serve --port 8080
+```
+
+---
+
+### terramind web
+
+Launch the web interface.
+
+```bash
+terramind web [options]
+```
+
+**Options:**
+- `--port <port>` - Port for web server (default: 3000)
+- `--open` - Automatically open in browser
+
+**Example:**
+```bash
+terramind web --port 8080 --open
+```
+
+---
+
+## Utility Commands
+
+### terramind upgrade
+
+Upgrade Terramind to the latest version.
+
+```bash
+terramind upgrade [options]
+```
+
+**Options:**
+- `--check` - Only check for updates
+- `--force` - Force upgrade even if already up to date
+
+**Example:**
+```bash
+terramind upgrade
+terramind upgrade --check
+```
+
+---
+
+### terramind stats
+
+Display usage statistics and costs.
+
+```bash
+terramind stats [options]
+```
+
+**Options:**
+- `--period <period>` - Time period (day, week, month)
+- `--format <format>` - Output format (text, json)
+
+**Example:**
+```bash
+terramind stats --period week
+```
+
+---
+
+### terramind export
+
+Export conversation history.
+
+```bash
+terramind export [options]
+```
+
+**Options:**
+- `--output <file>` - Output file path
+- `--format <format>` - Export format (json, markdown)
+
+**Example:**
+```bash
+terramind export --output conversation.json --format json
+```
+
+---
+
+### terramind import
+
+Import conversation history.
+
+```bash
+terramind import <file> [options]
+```
+
+**Arguments:**
+- `<file>` - File to import
+
+**Example:**
+```bash
+terramind import conversation.json
+```
+
+---
+
+## GitHub Integration
+
+### terramind github
+
+Interact with GitHub repositories.
+
+```bash
+terramind github <action> [options]
+```
+
+**Actions:**
+- `pr` - Create or review pull requests
+- `issue` - Manage issues
+
+**Example:**
+```bash
+terramind github pr --review
+```
+
+---
+
+## MCP Integration
+
+### terramind mcp
+
+Manage Model Context Protocol servers.
+
+```bash
+terramind mcp <action> [options]
+```
+
+**Actions:**
+- `list` - List configured MCP servers
+- `add` - Add a new MCP server
+- `remove` - Remove an MCP server
+
+**Example:**
+```bash
+terramind mcp list
+terramind mcp add --name myserver --command "node server.js"
+```
+
+---
+
+## Debug Commands
+
+### terramind debug
+
+Access debugging utilities.
+
+```bash
+terramind debug <command> [options]
+```
+
+**Commands:**
+- `logs` - View application logs
+- `config` - Display current configuration
+- `clear-cache` - Clear application cache
+
+**Example:**
+```bash
+terramind debug logs
+terramind debug clear-cache
+```
+
+---
+
+## Global Options
+
+These options work with any command:
+
+- `--help`, `-h` - Show help information
+- `--version`, `-v` - Display version
+- `--debug` - Enable debug mode
+- `--no-color` - Disable colored output
+- `--config <file>` - Use custom config file
+
+**Example:**
+```bash
+terramind run "your prompt" --debug --no-color
+```
+
+---
+
+## Environment Variables
+
+Configure Terramind behavior with environment variables:
+
+- `TERRAMIND_API_KEY` - API key for authentication
+- `TERRAMIND_MODEL` - Default model to use
+- `TERRAMIND_CONFIG_PATH` - Custom config file location
+- `TERRAMIND_LOG_LEVEL` - Logging level (error, warn, info, debug)
+
+**Example:**
+```bash
+export TERRAMIND_API_KEY=your_key_here
+export TERRAMIND_MODEL=claude-sonnet-4-5
+terramind run "your prompt"
+```
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration" icon="gear" href="/cli/configuration">
+    Learn how to customize Terramind
+  </Card>
+  <Card title="AI SDK Provider" icon="code" href="/provider/overview">
+    Use Terramind in your applications
+  </Card>
+</CardGroup>
+

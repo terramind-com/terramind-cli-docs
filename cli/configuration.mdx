@@ -1,0 +1,351 @@
+---
+title: 'Configuration'
+description: 'Customize Terramind to match your workflow'
+---
+
+## Configuration File
+
+Terramind uses a configuration file to store your preferences and settings. The configuration is automatically created when you first run Terramind.
+
+### Location
+
+The configuration file is located at:
+
+- **macOS/Linux**: `~/.config/terramind/config.json`
+- **Windows**: `%APPDATA%\terramind\config.json`
+
+### Structure
+
+```json
+{
+  "model": "claude-sonnet-4-5",
+  "apiKey": "your-api-key",
+  "auth": {
+    "type": "api-key",
+    "token": null
+  },
+  "preferences": {
+    "theme": "auto",
+    "verbose": false,
+    "autoUpdate": true
+  },
+  "mcp": {
+    "servers": []
+  }
+}
+```
+
+## Authentication
+
+Configure authentication credentials for Terramind:
+
+### API Key
+
+The recommended method for authentication:
+
+```bash
+terramind auth --api-key YOUR_API_KEY
+```
+
+Or set it in your environment:
+
+```bash
+export TERRAMIND_API_KEY=your_api_key_here
+```
+
+### Firebase Token
+
+Alternative authentication method:
+
+```bash
+terramind auth --token YOUR_FIREBASE_TOKEN
+```
+
+<Warning>
+Keep your API keys secure! Never commit them to version control or share them publicly.
+</Warning>
+
+## Model Settings
+
+### Default Model
+
+Set your preferred default model:
+
+```json
+{
+  "model": "claude-sonnet-4-5"
+}
+```
+
+Or via environment variable:
+
+```bash
+export TERRAMIND_MODEL=gpt-5
+```
+
+### Model-Specific Settings
+
+Configure settings for individual models:
+
+```json
+{
+  "models": {
+    "claude-sonnet-4-5": {
+      "temperature": 0.7,
+      "maxTokens": 4096
+    },
+    "gpt-5": {
+      "temperature": 0.8,
+      "maxTokens": 8192
+    }
+  }
+}
+```
+
+## Preferences
+
+### Theme
+
+Choose your preferred color theme:
+
+```json
+{
+  "preferences": {
+    "theme": "auto"  // Options: "auto", "light", "dark"
+  }
+}
+```
+
+### Output Format
+
+Control how Terramind displays output:
+
+```json
+{
+  "preferences": {
+    "verbose": false,      // Detailed output
+    "color": true,          // Colored output
+    "format": "text"        // Options: "text", "json", "markdown"
+  }
+}
+```
+
+### Auto-Update
+
+Control automatic updates:
+
+```json
+{
+  "preferences": {
+    "autoUpdate": true,     // Check for updates automatically
+    "updateChannel": "stable"  // Options: "stable", "beta"
+  }
+}
+```
+
+## Project Configuration
+
+You can also create project-specific configuration files:
+
+### .terramind.json
+
+Create a `.terramind.json` file in your project root:
+
+```json
+{
+  "model": "claude-sonnet-4-5",
+  "context": {
+    "include": ["src/**/*.ts", "README.md"],
+    "exclude": ["node_modules", "dist", "*.test.ts"]
+  },
+  "tools": {
+    "enabled": ["bash", "read", "write", "grep"],
+    "bash": {
+      "allowedCommands": ["npm", "git", "ls"]
+    }
+  }
+}
+```
+
+This configuration will be used when running Terramind in that directory.
+
+## MCP Servers
+
+Configure Model Context Protocol servers for extended capabilities:
+
+```json
+{
+  "mcp": {
+    "servers": [
+      {
+        "name": "filesystem",
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/directory"]
+      },
+      {
+        "name": "github",
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": {
+          "GITHUB_TOKEN": "your_token_here"
+        }
+      }
+    ]
+  }
+}
+```
+
+Learn more in the [MCP documentation](https://modelcontextprotocol.io/).
+
+## Tool Configuration
+
+Configure which tools Terramind can use:
+
+```json
+{
+  "tools": {
+    "enabled": ["bash", "read", "write", "grep", "codesearch"],
+    "bash": {
+      "allowed": true,
+      "timeout": 30000,
+      "allowedCommands": ["npm", "git", "cargo", "python"]
+    },
+    "write": {
+      "confirmBeforeWrite": true,
+      "backupFiles": true
+    }
+  }
+}
+```
+
+### Available Tools
+
+- `bash` - Execute shell commands
+- `read` - Read file contents
+- `write` - Write/modify files
+- `grep` - Search file contents
+- `codesearch` - Semantic code search
+- `glob` - File pattern matching
+- `ls` - List directory contents
+- `webfetch` - Fetch web content
+- `websearch` - Search the web
+
+## Logging
+
+Configure logging behavior:
+
+```json
+{
+  "logging": {
+    "level": "info",          // Options: "error", "warn", "info", "debug"
+    "file": "~/.config/terramind/logs/terramind.log",
+    "maxSize": "10MB",
+    "maxFiles": 5
+  }
+}
+```
+
+Or use environment variable:
+
+```bash
+export TERRAMIND_LOG_LEVEL=debug
+```
+
+## Advanced Settings
+
+### Context Window
+
+Control how much context is sent to the AI:
+
+```json
+{
+  "context": {
+    "maxTokens": 100000,
+    "includeFileTree": true,
+    "includeGitStatus": true
+  }
+}
+```
+
+### Caching
+
+Configure response caching:
+
+```json
+{
+  "cache": {
+    "enabled": true,
+    "ttl": 3600,              // Time to live in seconds
+    "directory": "~/.cache/terramind"
+  }
+}
+```
+
+### Network
+
+Configure network settings:
+
+```json
+{
+  "network": {
+    "timeout": 30000,         // Request timeout in ms
+    "proxy": null,            // HTTP proxy URL
+    "retries": 3              // Number of retries on failure
+  }
+}
+```
+
+## Environment Variables
+
+All configuration options can be overridden with environment variables:
+
+```bash
+# Authentication
+export TERRAMIND_API_KEY=your_api_key
+export TERRAMIND_AUTH_TOKEN=your_token
+
+# Model settings
+export TERRAMIND_MODEL=claude-sonnet-4-5
+export TERRAMIND_TEMPERATURE=0.7
+
+# Preferences
+export TERRAMIND_THEME=dark
+export TERRAMIND_LOG_LEVEL=debug
+
+# Paths
+export TERRAMIND_CONFIG_PATH=/custom/path/config.json
+export TERRAMIND_CACHE_DIR=/custom/cache/dir
+```
+
+## Resetting Configuration
+
+To reset to default settings:
+
+```bash
+terramind debug clear-cache
+rm ~/.config/terramind/config.json
+```
+
+The configuration will be recreated with defaults on next run.
+
+## Configuration Validation
+
+Validate your configuration file:
+
+```bash
+terramind debug config --validate
+```
+
+This will check for syntax errors and invalid values.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="CLI Commands" icon="terminal" href="/cli/commands">
+    Explore all available commands
+  </Card>
+  <Card title="AI SDK Provider" icon="code" href="/provider/overview">
+    Use Terramind in your code
+  </Card>
+</CardGroup>
+

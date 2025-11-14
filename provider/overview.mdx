@@ -1,0 +1,247 @@
+---
+title: 'AI SDK Provider Overview'
+description: 'Use Terramind as a provider with the Vercel AI SDK'
+---
+
+## Introduction
+
+Terramind can be used as an AI provider with the [Vercel AI SDK](https://sdk.vercel.ai/), giving you access to multiple LLM providers through a unified, easy-to-use interface.
+
+This is perfect for building AI-powered applications without managing multiple API keys or dealing with different provider APIs.
+
+## Why Use Terramind as a Provider?
+
+<CardGroup cols={2}>
+  <Card title="Unified Interface" icon="plug">
+    Access Claude, GPT, Gemini, and more through one consistent API
+  </Card>
+  <Card title="Simplified Auth" icon="key">
+    One API key for all models - no need to manage multiple provider keys
+  </Card>
+  <Card title="Built-in Tracking" icon="chart-line">
+    Automatic usage tracking and cost monitoring
+  </Card>
+  <Card title="Vercel AI SDK Compatible" icon="code">
+    Drop-in replacement that works with all AI SDK features
+  </Card>
+</CardGroup>
+
+## Features
+
+### Full AI SDK Support
+
+Terramind supports all major Vercel AI SDK features:
+
+- ✅ **Text Generation** - `generateText()`, `streamText()`
+- ✅ **Object Generation** - `generateObject()`, `streamObject()`
+- ✅ **Tool Calling** - Full tool/function calling support
+- ✅ **Streaming** - Real-time streaming responses
+- ✅ **Multi-modal** - Text, images, and more
+- ✅ **Embeddings** - Generate text embeddings
+
+### Multiple Models
+
+Access industry-leading models:
+
+- **Claude**: Sonnet 4.5, Sonnet 4, Opus 4.1, Haiku 4.5
+- **GPT**: GPT-5, GPT-5 Codex
+- **Chinese Models**: GLM-4.6, Kimi K2, Qwen3 Coder
+- **Specialized**: Grok Code, Big Pickle
+
+## Installation
+
+Install both Terramind and the Vercel AI SDK:
+
+<CodeGroup>
+
+```bash npm
+npm install terramind ai
+```
+
+```bash pnpm
+pnpm add terramind ai
+```
+
+```bash bun
+bun add terramind ai
+```
+
+</CodeGroup>
+
+## Quick Start
+
+Here's a simple example to get started:
+
+```typescript
+import { createTerramind } from "terramind/provider"
+import { generateText } from "ai"
+
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY,
+})
+
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Write a haiku about coding",
+})
+
+console.log(result.text)
+```
+
+## Basic Usage Patterns
+
+### Text Generation
+
+Generate text responses:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Explain React hooks in simple terms",
+})
+
+console.log(result.text)
+```
+
+### Streaming Responses
+
+Stream responses in real-time:
+
+```typescript
+const result = await streamText({
+  model: terramind("gpt-5"),
+  prompt: "Write a short story about AI",
+})
+
+for await (const chunk of result.textStream) {
+  process.stdout.write(chunk)
+}
+```
+
+### Object Generation
+
+Generate structured data:
+
+```typescript
+import { generateObject } from "ai"
+import { z } from "zod"
+
+const result = await generateObject({
+  model: terramind("claude-sonnet-4-5"),
+  schema: z.object({
+    recipe: z.string(),
+    ingredients: z.array(z.string()),
+    steps: z.array(z.string()),
+  }),
+  prompt: "Generate a recipe for chocolate chip cookies",
+})
+
+console.log(result.object)
+```
+
+### Tool Calling
+
+Use AI with tools/functions:
+
+```typescript
+import { generateText, tool } from "ai"
+import { z } from "zod"
+
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "What's the weather in San Francisco?",
+  tools: {
+    getWeather: tool({
+      description: "Get the weather for a location",
+      parameters: z.object({
+        location: z.string(),
+      }),
+      execute: async ({ location }) => {
+        // Your weather API call here
+        return { temperature: 72, condition: "sunny" }
+      },
+    }),
+  },
+})
+```
+
+## Configuration
+
+### Create Provider Instance
+
+```typescript
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY,
+  baseURL: "https://api.terramind.com", // Optional
+})
+```
+
+### Environment Variables
+
+Set your API key as an environment variable:
+
+```bash
+export TERRAMIND_API_KEY=your_api_key_here
+```
+
+Then the provider will automatically use it:
+
+```typescript
+const terramind = createTerramind() // Uses TERRAMIND_API_KEY
+```
+
+## Error Handling
+
+Handle errors gracefully:
+
+```typescript
+try {
+  const result = await generateText({
+    model: terramind("claude-sonnet-4-5"),
+    prompt: "Hello!",
+  })
+  console.log(result.text)
+} catch (error) {
+  if (error.name === "AI_APICallError") {
+    console.error("API call failed:", error.message)
+  } else if (error.name === "AI_InvalidPromptError") {
+    console.error("Invalid prompt:", error.message)
+  } else {
+    console.error("Unexpected error:", error)
+  }
+}
+```
+
+## TypeScript Support
+
+Terramind has full TypeScript support with type inference:
+
+```typescript
+import { createTerramind } from "terramind/provider"
+import { generateText } from "ai"
+
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY!,
+})
+
+// TypeScript knows the return type
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Hello",
+})
+
+// result.text is string
+// result.usage is { promptTokens: number, completionTokens: number }
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Usage Examples" icon="code" href="/provider/usage">
+    See detailed code examples and patterns
+  </Card>
+  <Card title="Available Models" icon="list" href="/provider/models">
+    Browse all available models
+  </Card>
+</CardGroup>
+

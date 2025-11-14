@@ -1,0 +1,203 @@
+---
+title: 'Installation'
+description: 'Complete installation guide for Terramind across all platforms'
+---
+
+## Package Managers
+
+### npm
+
+```bash
+npm install -g terramind
+```
+
+### pnpm
+
+```bash
+pnpm add -g terramind
+```
+
+### Bun
+
+```bash
+bun add -g terramind
+```
+
+## Platform-Specific Installation
+
+### macOS
+
+#### Homebrew
+
+```bash
+brew tap terramind-com/tap
+brew install terramind-com/tap/terramind
+```
+
+#### Manual Download
+
+Download the latest macOS binary from [GitHub Releases](https://github.com/terramind-com/cli/releases):
+
+<CodeGroup>
+
+```bash Apple Silicon (M1/M2/M3)
+curl -LO https://registry.npmjs.org/terramind-darwin-arm64/-/terramind-darwin-arm64-VERSION.tgz
+tar -xzf terramind-darwin-arm64-VERSION.tgz
+sudo mv package/bin/terramind /usr/local/bin/
+```
+
+```bash Intel
+curl -LO https://registry.npmjs.org/terramind-darwin-x64/-/terramind-darwin-x64-VERSION.tgz
+tar -xzf terramind-darwin-x64-VERSION.tgz
+sudo mv package/bin/terramind /usr/local/bin/
+```
+
+</CodeGroup>
+
+### Linux
+
+#### Using npm (Recommended)
+
+```bash
+npm install -g terramind
+```
+
+#### Manual Download
+
+<CodeGroup>
+
+```bash ARM64
+curl -LO https://registry.npmjs.org/terramind-linux-arm64/-/terramind-linux-arm64-VERSION.tgz
+tar -xzf terramind-linux-arm64-VERSION.tgz
+sudo mv package/bin/terramind /usr/local/bin/
+```
+
+```bash x64
+curl -LO https://registry.npmjs.org/terramind-linux-x64/-/terramind-linux-x64-VERSION.tgz
+tar -xzf terramind-linux-x64-VERSION.tgz
+sudo mv package/bin/terramind /usr/local/bin/
+```
+
+</CodeGroup>
+
+### Windows
+
+#### Chocolatey
+
+```powershell
+choco install terramind
+```
+
+#### Scoop
+
+```powershell
+scoop bucket add extras
+scoop install extras/terramind
+```
+
+#### Manual Download
+
+Download the Windows binary from [GitHub Releases](https://github.com/terramind-com/cli/releases):
+
+```powershell
+# Download terramind-windows-x64-VERSION.tgz
+# Extract the archive
+# Add the bin directory to your PATH
+```
+
+## Verify Installation
+
+After installation, verify that Terramind is working:
+
+```bash
+terramind --version
+```
+
+You should see the version number displayed.
+
+## Updating Terramind
+
+### Using Package Managers
+
+<CodeGroup>
+
+```bash npm
+npm update -g terramind
+```
+
+```bash pnpm
+pnpm update -g terramind
+```
+
+```bash bun
+bun update -g terramind
+```
+
+```bash Homebrew
+brew upgrade terramind-com/tap/terramind
+```
+
+```powershell Chocolatey
+choco upgrade terramind
+```
+
+```powershell Scoop
+scoop update terramind
+```
+
+</CodeGroup>
+
+### Using Built-in Upgrade Command
+
+```bash
+terramind upgrade
+```
+
+This will check for updates and upgrade to the latest version.
+
+## System Requirements
+
+- **Node.js**: 18.x or higher (for npm installation)
+- **Operating System**: macOS, Linux, or Windows
+- **Architecture**: ARM64 or x64
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Command not found">
+    If you get a "command not found" error after installation:
+    
+    1. Make sure the installation completed successfully
+    2. Try closing and reopening your terminal
+    3. Check that the binary is in your PATH
+    4. For npm installations, verify with: `npm list -g terramind`
+  </Accordion>
+
+  <Accordion title="Permission denied">
+    If you encounter permission errors:
+    
+    - On macOS/Linux, try using `sudo` for global installations
+    - Or install without `-g` flag in a local project
+    - Consider using a Node version manager (nvm, fnm) to avoid permission issues
+  </Accordion>
+
+  <Accordion title="Version mismatch">
+    If the version command shows an old version:
+    
+    1. Clear npm cache: `npm cache clean --force`
+    2. Uninstall: `npm uninstall -g terramind`
+    3. Reinstall: `npm install -g terramind`
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Run your first Terramind command
+  </Card>
+  <Card title="CLI Commands" icon="terminal" href="/cli/commands">
+    Learn about all available commands
+  </Card>
+</CardGroup>
+

@@ -1,0 +1,356 @@
+---
+title: 'Available Models'
+description: 'Complete list of AI models available through Terramind'
+---
+
+## Model Overview
+
+Terramind provides access to industry-leading AI models from multiple providers. All models are accessed through the same unified interface.
+
+## Claude Models
+
+Anthropic's Claude models, known for excellent coding and reasoning capabilities.
+
+### claude-sonnet-4-5
+
+**Latest and most capable Claude model**
+
+- **Best for**: Complex coding tasks, detailed analysis, long conversations
+- **Context**: Up to 200K tokens
+- **Strengths**: Code generation, debugging, technical writing, complex reasoning
+- **Speed**: Balanced (medium)
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Refactor this legacy code to use modern TypeScript patterns",
+})
+```
+
+### claude-sonnet-4
+
+**Previous generation Sonnet**
+
+- **Best for**: General coding and analysis tasks
+- **Context**: Up to 200K tokens
+- **Strengths**: Code understanding, documentation, technical explanations
+- **Speed**: Balanced (medium)
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4"),
+  prompt: "Explain this algorithm",
+})
+```
+
+### claude-opus-4-1
+
+**Most powerful Claude model**
+
+- **Best for**: Extremely complex tasks requiring deep reasoning
+- **Context**: Up to 200K tokens
+- **Strengths**: Research, complex problem solving, academic writing
+- **Speed**: Slower but more thorough
+- **Cost**: Higher
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-opus-4-1"),
+  prompt: "Design a distributed system architecture for...",
+})
+```
+
+### claude-haiku-4-5
+
+**Fastest Claude model**
+
+- **Best for**: Quick responses, simple tasks, high-volume requests
+- **Context**: Up to 200K tokens
+- **Strengths**: Speed, efficiency, cost-effectiveness
+- **Speed**: Very fast
+- **Cost**: Lower
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-haiku-4-5"),
+  prompt: "Fix this syntax error",
+})
+```
+
+### claude-3-5-haiku
+
+**Previous generation Haiku**
+
+- **Best for**: Fast responses with good quality
+- **Context**: Up to 200K tokens
+- **Speed**: Fast
+- **Cost**: Lower
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-3-5-haiku"),
+  prompt: "Summarize this code",
+})
+```
+
+---
+
+## GPT Models
+
+OpenAI's GPT models, known for versatility and strong general capabilities.
+
+### gpt-5
+
+**Latest GPT model**
+
+- **Best for**: General tasks, creative writing, reasoning
+- **Context**: Up to 128K tokens
+- **Strengths**: Versatility, creativity, general knowledge
+- **Speed**: Fast
+
+```typescript
+const result = await generateText({
+  model: terramind("gpt-5"),
+  prompt: "Write a technical blog post about WebAssembly",
+})
+```
+
+### gpt-5-codex
+
+**Code-specialized GPT**
+
+- **Best for**: Code generation and understanding
+- **Context**: Up to 128K tokens
+- **Strengths**: Code completion, bug fixing, test generation
+- **Speed**: Fast
+- **Specialization**: Optimized for programming tasks
+
+```typescript
+const result = await generateText({
+  model: terramind("gpt-5-codex"),
+  prompt: "Generate unit tests for this React component",
+})
+```
+
+---
+
+## Chinese Models
+
+Leading Chinese AI models with excellent multilingual capabilities.
+
+### glm-4.6
+
+**Zhipu AI's GLM model**
+
+- **Best for**: Chinese language tasks, bilingual content
+- **Strengths**: Chinese understanding, translation, cultural context
+- **Languages**: Chinese, English, and more
+
+```typescript
+const result = await generateText({
+  model: terramind("glm-4.6"),
+  prompt: "用中文解释这个算法",
+})
+```
+
+### kimi-k2
+
+**Moonshot AI's Kimi model**
+
+- **Best for**: Long context understanding
+- **Context**: Very large context window
+- **Strengths**: Long document analysis, Chinese language
+
+```typescript
+const result = await generateText({
+  model: terramind("kimi-k2"),
+  prompt: "分析这个长文档",
+})
+```
+
+### qwen3-coder
+
+**Alibaba's Qwen coding model**
+
+- **Best for**: Code generation in Chinese/English
+- **Strengths**: Programming, Chinese code comments
+- **Specialization**: Coding tasks
+
+```typescript
+const result = await generateText({
+  model: terramind("qwen3-coder"),
+  prompt: "编写一个排序算法",
+})
+```
+
+---
+
+## Specialized Models
+
+### grok-code
+
+**xAI's Grok code model**
+
+- **Best for**: Code analysis and generation
+- **Strengths**: Programming tasks, technical analysis
+- **Specialization**: Software development
+
+```typescript
+const result = await generateText({
+  model: terramind("grok-code"),
+  prompt: "Analyze this codebase architecture",
+})
+```
+
+### big-pickle
+
+**Specialized model for specific tasks**
+
+- **Best for**: Domain-specific applications
+- **Use case**: Custom enterprise needs
+
+```typescript
+const result = await generateText({
+  model: terramind("big-pickle"),
+  prompt: "Process this domain-specific data",
+})
+```
+
+---
+
+## Model Comparison
+
+<Note>
+This table helps you choose the right model for your use case.
+</Note>
+
+| Model | Best For | Speed | Cost | Context Window |
+|-------|----------|-------|------|----------------|
+| `claude-sonnet-4-5` | Complex coding, analysis | Medium | Medium | 200K |
+| `claude-opus-4-1` | Deep reasoning | Slow | High | 200K |
+| `claude-haiku-4-5` | Quick tasks | Fast | Low | 200K |
+| `gpt-5` | General tasks | Fast | Medium | 128K |
+| `gpt-5-codex` | Code generation | Fast | Medium | 128K |
+| `glm-4.6` | Chinese language | Medium | Medium | Large |
+| `kimi-k2` | Long documents | Medium | Medium | Very Large |
+| `qwen3-coder` | Chinese coding | Fast | Medium | Large |
+| `grok-code` | Code analysis | Medium | Medium | Large |
+
+## Choosing the Right Model
+
+### For Coding Tasks
+
+**Complex refactoring or architecture:**
+- Use `claude-sonnet-4-5` or `claude-opus-4-1`
+
+**Quick fixes or simple generation:**
+- Use `claude-haiku-4-5` or `gpt-5-codex`
+
+**Test generation:**
+- Use `gpt-5-codex` or `claude-sonnet-4-5`
+
+### For Chinese Language
+
+**Chinese content:**
+- Use `glm-4.6` for general tasks
+- Use `qwen3-coder` for coding
+- Use `kimi-k2` for long documents
+
+### For Cost Optimization
+
+**High volume, simple tasks:**
+- Use `claude-haiku-4-5`
+
+**Important, complex tasks:**
+- Use `claude-sonnet-4-5` or `gpt-5`
+
+**Maximum capability:**
+- Use `claude-opus-4-1`
+
+## Model-Specific Features
+
+### Long Context
+
+Models with large context windows are better for:
+- Analyzing entire codebases
+- Processing long documents
+- Maintaining conversation history
+
+Best models for long context:
+- `claude-sonnet-4-5` (200K)
+- `claude-opus-4-1` (200K)
+- `kimi-k2` (very large)
+
+### Streaming
+
+All models support streaming for real-time responses:
+
+```typescript
+const result = await streamText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Explain async programming",
+})
+
+for await (const chunk of result.textStream) {
+  process.stdout.write(chunk)
+}
+```
+
+### Tool Calling
+
+All models support tool/function calling:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Calculate the area of a circle with radius 5",
+  tools: {
+    calculator: tool({
+      description: "Perform calculations",
+      parameters: z.object({ expression: z.string() }),
+      execute: async ({ expression }) => eval(expression),
+    }),
+  },
+})
+```
+
+## Pricing
+
+Pricing varies by model. Contact Terramind for detailed pricing information.
+
+Generally:
+- **Fast models** (Haiku): Lower cost
+- **Balanced models** (Sonnet, GPT-5): Medium cost
+- **Powerful models** (Opus): Higher cost
+
+Track your usage with:
+
+```bash
+terramind stats
+```
+
+## Model Updates
+
+Models are regularly updated with improvements. To use the latest version, ensure your Terramind package is up to date:
+
+```bash
+terramind upgrade
+```
+
+Or update via npm:
+
+```bash
+npm update -g terramind
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Usage Examples" icon="code" href="/provider/usage">
+    See practical examples for each model
+  </Card>
+  <Card title="CLI Commands" icon="terminal" href="/cli/commands">
+    Use models from the command line
+  </Card>
+</CardGroup>
+

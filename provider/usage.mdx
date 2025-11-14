@@ -1,0 +1,459 @@
+---
+title: 'Provider Usage Examples'
+description: 'Practical examples for using Terramind with the AI SDK'
+---
+
+## Setup
+
+First, create a Terramind provider instance:
+
+```typescript
+import { createTerramind } from "terramind/provider"
+
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY,
+})
+```
+
+## Text Generation
+
+### Simple Text Generation
+
+Generate a single text response:
+
+```typescript
+import { generateText } from "ai"
+
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Write a function to reverse a string in TypeScript",
+})
+
+console.log(result.text)
+```
+
+### With System Message
+
+Add context with a system message:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  system: "You are an expert TypeScript developer who writes clean, maintainable code.",
+  prompt: "Write a function to debounce user input",
+})
+```
+
+### Multi-turn Conversation
+
+Have a conversation with message history:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  messages: [
+    { role: "user", content: "What is React?" },
+    { role: "assistant", content: "React is a JavaScript library for building user interfaces..." },
+    { role: "user", content: "How do I create a component?" },
+  ],
+})
+```
+
+## Streaming
+
+### Stream Text
+
+Stream responses in real-time:
+
+```typescript
+import { streamText } from "ai"
+
+const result = await streamText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Explain quantum computing",
+})
+
+for await (const chunk of result.textStream) {
+  process.stdout.write(chunk)
+}
+```
+
+### Stream with Full Response
+
+Access both streaming and final result:
+
+```typescript
+const result = await streamText({
+  model: terramind("gpt-5"),
+  prompt: "Write a poem about programming",
+})
+
+// Stream the response
+for await (const chunk of result.textStream) {
+  process.stdout.write(chunk)
+}
+
+// Get full response with metadata
+const fullResponse = await result.response
+console.log("\n\nTokens used:", fullResponse.usage)
+```
+
+## Object Generation
+
+### Generate Structured Data
+
+Create type-safe structured output:
+
+```typescript
+import { generateObject } from "ai"
+import { z } from "zod"
+
+const result = await generateObject({
+  model: terramind("claude-sonnet-4-5"),
+  schema: z.object({
+    name: z.string(),
+    age: z.number(),
+    hobbies: z.array(z.string()),
+    address: z.object({
+      street: z.string(),
+      city: z.string(),
+    }),
+  }),
+  prompt: "Generate a random person profile",
+})
+
+console.log(result.object.name) // Type-safe access
+```
+
+### Stream Objects
+
+Stream objects as they're generated:
+
+```typescript
+import { streamObject } from "ai"
+import { z } from "zod"
+
+const result = await streamObject({
+  model: terramind("claude-sonnet-4-5"),
+  schema: z.object({
+    tasks: z.array(z.object({
+      title: z.string(),
+      completed: z.boolean(),
+    })),
+  }),
+  prompt: "Generate a todo list for a software project",
+})
+
+for await (const partialObject of result.partialObjectStream) {
+  console.log(partialObject)
+}
+```
+
+## Tool Calling
+
+### Single Tool
+
+Define and use a single tool:
+
+```typescript
+import { generateText, tool } from "ai"
+import { z } from "zod"
+
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Calculate 25 * 37",
+  tools: {
+    calculator: tool({
+      description: "Perform mathematical calculations",
+      parameters: z.object({
+        operation: z.enum(["add", "subtract", "multiply", "divide"]),
+        a: z.number(),
+        b: z.number(),
+      }),
+      execute: async ({ operation, a, b }) => {
+        const ops = {
+          add: a + b,
+          subtract: a - b,
+          multiply: a * b,
+          divide: a / b,
+        }
+        return ops[operation]
+      },
+    }),
+  },
+})
+
+console.log(result.text)
+```
+
+### Multiple Tools
+
+Use multiple tools together:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Get the weather in Tokyo and convert the temperature to Fahrenheit",
+  tools: {
+    getWeather: tool({
+      description: "Get current weather for a city",
+      parameters: z.object({
+        city: z.string(),
+      }),
+      execute: async ({ city }) => {
+        // API call
+        return { temp: 20, unit: "celsius" }
+      },
+    }),
+    convertTemp: tool({
+      description: "Convert temperature between units",
+      parameters: z.object({
+        value: z.number(),
+        from: z.enum(["celsius", "fahrenheit"]),
+        to: z.enum(["celsius", "fahrenheit"]),
+      }),
+      execute: async ({ value, from, to }) => {
+        if (from === "celsius" && to === "fahrenheit") {
+          return (value * 9/5) + 32
+        }
+        return value
+      },
+    }),
+  },
+})
+```
+
+### Tool Call Results
+
+Access tool call information:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Search for TypeScript tutorials",
+  tools: {
+    search: tool({
+      description: "Search the web",
+      parameters: z.object({ query: z.string() }),
+      execute: async ({ query }) => {
+        return ["Result 1", "Result 2"]
+      },
+    }),
+  },
+})
+
+// Check if tools were called
+for (const toolCall of result.toolCalls) {
+  console.log("Tool called:", toolCall.toolName)
+  console.log("Arguments:", toolCall.args)
+  console.log("Result:", toolCall.result)
+}
+```
+
+## Advanced Usage
+
+### Retry Logic
+
+Implement retry logic for failed requests:
+
+```typescript
+async function generateWithRetry(prompt: string, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await generateText({
+        model: terramind("claude-sonnet-4-5"),
+        prompt,
+      })
+    } catch (error) {
+      if (i === maxRetries - 1) throw error
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)))
+    }
+  }
+}
+```
+
+### Cost Tracking
+
+Track token usage and costs:
+
+```typescript
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Explain machine learning",
+})
+
+console.log("Usage:", {
+  promptTokens: result.usage.promptTokens,
+  completionTokens: result.usage.completionTokens,
+  totalTokens: result.usage.totalTokens,
+})
+```
+
+### Abort Requests
+
+Cancel long-running requests:
+
+```typescript
+const controller = new AbortController()
+
+setTimeout(() => controller.abort(), 5000) // Abort after 5 seconds
+
+try {
+  const result = await generateText({
+    model: terramind("claude-sonnet-4-5"),
+    prompt: "Write a long essay",
+    abortSignal: controller.signal,
+  })
+} catch (error) {
+  if (error.name === "AbortError") {
+    console.log("Request was aborted")
+  }
+}
+```
+
+## Framework Integration
+
+### Next.js App Router
+
+Use in Next.js server actions:
+
+```typescript
+// app/actions.ts
+"use server"
+
+import { createTerramind } from "terramind/provider"
+import { generateText } from "ai"
+
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY!,
+})
+
+export async function generateContent(prompt: string) {
+  const result = await generateText({
+    model: terramind("claude-sonnet-4-5"),
+    prompt,
+  })
+  
+  return result.text
+}
+```
+
+### Next.js API Routes
+
+Create an API endpoint:
+
+```typescript
+// app/api/chat/route.ts
+import { createTerramind } from "terramind/provider"
+import { streamText } from "ai"
+
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY!,
+})
+
+export async function POST(req: Request) {
+  const { messages } = await req.json()
+  
+  const result = await streamText({
+    model: terramind("claude-sonnet-4-5"),
+    messages,
+  })
+  
+  return result.toDataStreamResponse()
+}
+```
+
+### Express.js
+
+Use with Express:
+
+```typescript
+import express from "express"
+import { createTerramind } from "terramind/provider"
+import { generateText } from "ai"
+
+const app = express()
+const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY!,
+})
+
+app.post("/api/generate", async (req, res) => {
+  const { prompt } = req.body
+  
+  const result = await generateText({
+    model: terramind("claude-sonnet-4-5"),
+    prompt,
+  })
+  
+  res.json({ text: result.text })
+})
+
+app.listen(3000)
+```
+
+## Best Practices
+
+### Cache Provider Instance
+
+Reuse the provider instance across requests:
+
+```typescript
+// lib/ai.ts
+import { createTerramind } from "terramind/provider"
+
+export const terramind = createTerramind({
+  apiKey: process.env.TERRAMIND_API_KEY!,
+})
+```
+
+```typescript
+// Use in multiple files
+import { terramind } from "@/lib/ai"
+import { generateText } from "ai"
+
+const result = await generateText({
+  model: terramind("claude-sonnet-4-5"),
+  prompt: "Hello",
+})
+```
+
+### Environment Variables
+
+Store sensitive data securely:
+
+```bash
+# .env.local
+TERRAMIND_API_KEY=your_key_here
+```
+
+Never commit API keys to version control!
+
+### Error Boundaries
+
+Wrap AI calls in error boundaries:
+
+```typescript
+async function safeGenerate(prompt: string) {
+  try {
+    return await generateText({
+      model: terramind("claude-sonnet-4-5"),
+      prompt,
+    })
+  } catch (error) {
+    console.error("AI generation failed:", error)
+    return { text: "Sorry, I couldn't generate a response." }
+  }
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Available Models" icon="list" href="/provider/models">
+    See all available models and their capabilities
+  </Card>
+  <Card title="CLI Usage" icon="terminal" href="/cli/overview">
+    Learn about the Terramind CLI
+  </Card>
+</CardGroup>
+
